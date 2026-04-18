@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results — Game of Life</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f0f7f0;
+      min-height: 100vh;
+      padding: 40px 16px;
+    }
+    .container { max-width: 640px; margin: 0 auto; }
+    .winner-banner {
+      background: linear-gradient(135deg, #1a6b2e, #2d9e4a);
+      color: white;
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 24px rgba(26,107,46,0.3);
+    }
+    .winner-banner .trophy { font-size: 3rem; margin-bottom: 8px; }
+    .winner-banner h1 { font-size: 1.3rem; font-weight: 500; opacity: 0.85; margin-bottom: 4px; }
+    .winner-banner .name { font-size: 2.2rem; font-weight: 700; }
+    .winner-banner .amount { font-size: 1.2rem; opacity: 0.9; margin-top: 8px; }
+    h2 { color: #1a6b2e; font-size: 1.1rem; margin-bottom: 16px; }
+    .player-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .player-card.winner-card {
+      border: 2px solid #1a6b2e;
+    }
+    .rank {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ccc;
+      width: 32px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .rank.first { color: #f5a623; }
+    .info { flex: 1; }
+    .info .pname { font-weight: 700; font-size: 1.05rem; color: #222; }
+    .info .details { color: #666; font-size: 0.88rem; margin-top: 3px; }
+    .winnings {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1a6b2e;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .play-again {
+      display: block;
+      width: 100%;
+      margin-top: 28px;
+      padding: 14px;
+      background: #1a6b2e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .play-again:hover { background: #145523; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="winner-banner">
+      <div class="trophy">🏆</div>
+      <h1>Winner!</h1>
+      <div class="name">{{ winner }}</div>
+    </div>
+
+    <h2>Final Standings</h2>
+
+    {% for p in results | sort(attribute='winnings', reverse=True) %}
+      {% set rank = loop.index %}
+      <div class="player-card {% if p.name == winner %}winner-card{% endif %}">
+        <div class="rank {% if rank == 1 %}first{% endif %}">
+          {% if rank == 1 %}🥇{% elif rank == 2 %}🥈{% elif rank == 3 %}🥉{% else %}{{ rank }}{% endif %}
+        </div>
+        <div class="info">
+          <div class="pname">{{ p.name }}</div>
+          <div class="details">
+            {{ p.career }} &middot;
+            {% if p.college %}Went to college{% else %}Skipped college{% endif %} &middot;
+            {{ p.kids }} {{ 'kid' if p.kids == 1 else 'kids' }}
+          </div>
+        </div>
+        <div class="winnings">${{ "{:,.0f}".format(p.winnings) }}</div>
+      </div>
+    {% endfor %}
+
+    <a class="play-again" href="{{ url_for('index') }}">Play Again</a>
+  </div>
+</body>
+</html>

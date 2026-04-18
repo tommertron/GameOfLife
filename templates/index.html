@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game of Life</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f0f7f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 48px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    h1 { font-size: 2rem; color: #1a6b2e; margin-bottom: 8px; }
+    .subtitle { color: #666; margin-bottom: 36px; }
+    label { display: block; text-align: left; font-weight: 600; color: #333; margin-bottom: 8px; }
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #d0e8d4;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="number"]:focus { border-color: #1a6b2e; }
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: #1a6b2e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #145523; }
+    .error {
+      background: #ffeaea;
+      color: #c0392b;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .emoji { font-size: 3rem; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">🎲</div>
+    <h1>Game of Life</h1>
+    <p class="subtitle">Careers, kids, and cash — who comes out on top?</p>
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+    <form method="post">
+      <label for="num_players">How many players?</label>
+      <input type="number" id="num_players" name="num_players" min="1" max="20" placeholder="e.g. 3" required autofocus>
+      <button class="btn" type="submit">Let's Play!</button>
+    </form>
+  </div>
+</body>
+</html>
